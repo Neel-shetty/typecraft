@@ -3,15 +3,35 @@
  */
 
 // Import all our utility types and helpers
-import { BuildTuple, Add, Subtract } from './utility-types';
-import { Fibonacci } from './fibonacci';
-import { 
-  IsEven, IsOdd, OddOrEven, Greater, GreatestOfThree, 
-  Multiply, Factorial 
-} from './number-helpers';
-import { 
-  StringToTuple, IndexedChars, CharAt 
-} from './string-helpers';
+import { Fibonacci } from "./fibonacci";
+import {
+  IsEven,
+  IsOdd,
+  OddOrEven,
+  Greater,
+  GreatestOfThree,
+  Multiply,
+  Factorial,
+} from "./number-helpers";
+import { StringToTuple, IndexedChars, CharAt } from "./string-helpers";
+
+// Demo for the linked list type implementation
+import {
+  ListNode,
+  EmptyList,
+  Head,
+  Tail,
+  Prepend,
+  Append,
+  Length,
+  ValueAt,
+  TupleToList,
+  ListToTuple,
+  Reverse,
+  Concat,
+  Map,
+  AddOne,
+} from "./linked-list";
 
 // ----- DEMO: Fibonacci Sequence -----
 type F0 = Fibonacci<0>; // 0
@@ -55,6 +75,59 @@ type Fact5 = Factorial<5>; // 120
 type Fact6 = Factorial<6>; // 720
 
 // ----- DEMO: String Operations -----
-type StringAsTuple = StringToTuple<'hello'>; // ['h', 'e', 'l', 'l', 'o']
-type IndexedString = IndexedChars<'hello'>; // [[0, 'h'], [1, 'e'], [2, 'l'], [3, 'l'], [4, 'o']]
-type SecondChar = CharAt<'hello', 1>; // 'e'
+type StringAsTuple = StringToTuple<"hello">; // ['h', 'e', 'l', 'l', 'o']
+type IndexedString = IndexedChars<"hello">; // [[0, 'h'], [1, 'e'], [2, 'l'], [3, 'l'], [4, 'o']]
+type SecondChar = CharAt<"hello", 1>; // 'e'
+
+// ----- DEMO: Linked List Operations -----
+// Create a linked list: 1 -> 2 -> 3 -> null
+type MyList = ListNode<1, ListNode<2, ListNode<3, null>>>;
+
+// Convert tuple to linked list
+type FromTuple = TupleToList<[5, 6, 7, 8]>;
+
+// Basic operations
+type First = Head<MyList>; // 1
+type Rest = Tail<MyList>; // ListNode<2, ListNode<3, null>>
+type NewHead = Prepend<0, MyList>; // ListNode<0, MyList>
+type Longer = Append<MyList, 4>; // ListNode<1, ListNode<2, ListNode<3, ListNode<4, null>>>>
+
+// Compute length
+type ListLength = Length<MyList>; // 3
+
+// Access by index
+type Second = ValueAt<MyList, 1>; // 2
+
+// Convert back to tuple
+type AsTuple = ListToTuple<MyList>; // [1, 2, 3]
+
+// Reverse the list: 3 -> 2 -> 1 -> null
+type Backwards = Reverse<MyList>;
+
+// Concatenate lists
+type List1 = TupleToList<[1, 2]>;
+type List2 = TupleToList<[3, 4]>;
+type Combined = Concat<List1, List2>; // ListNode<1, ListNode<2, ListNode<3, ListNode<4, null>>>>
+
+// Print results using type assertions for demonstration
+const _typeChecks = {
+  first: {} as unknown as First extends 1 ? true : false,
+  length: {} as unknown as ListLength extends 3 ? true : false,
+  secondValue: {} as unknown as Second extends 2 ? true : false,
+  asTuple: {} as unknown as AsTuple extends [1, 2, 3] ? true : false,
+  // Check that our reverse operation really flipped the list
+  reversedHead: {} as unknown as Head<Backwards> extends 3 ? true : false,
+};
+
+// All should be true if properly implemented
+type AllChecksPass = true extends (typeof _typeChecks)["first"]
+  ? true extends (typeof _typeChecks)["length"]
+    ? true extends (typeof _typeChecks)["secondValue"]
+      ? true extends (typeof _typeChecks)["asTuple"]
+        ? true extends (typeof _typeChecks)["reversedHead"]
+          ? "All linked list operations work correctly!"
+          : "Reverse failed"
+        : "ListToTuple failed"
+      : "ValueAt failed"
+    : "Length failed"
+  : "Head failed";
