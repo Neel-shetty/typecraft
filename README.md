@@ -1,10 +1,10 @@
-# Type Smashing
+# Typecraft
 
 A collection of advanced TypeScript type-level programming utilities that demonstrate the power of TypeScript's type system.
 
 ## Overview
 
-Type Smashing is a TypeScript library that showcases type-level programming techniques. It implements various data structures and algorithms purely at the type level, demonstrating how TypeScript's type system can be used for compile-time computation.
+Typecraft is a TypeScript library that showcases type-level programming techniques. It implements various data structures and algorithms purely at the type level, demonstrating how TypeScript's type system can be used for compile-time computation.
 
 ## Features
 
