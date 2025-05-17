@@ -1,5 +1,5 @@
 /**
- * Type Smashing: Demonstrating advanced TypeScript type-level programming
+ * Typecraft: Demonstrating advanced TypeScript type-level programming
  */
 
 // Import all our utility types and helpers
